@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31005.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveyOnline.API", "SurveyOnline.API\SurveyOnline.API.csproj", "{C66BC907-9753-451A-A8CA-BFB270ADE9FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveyOnline.Shared", "SurveyOnline.Shared\SurveyOnline.Shared.csproj", "{7587F9F1-C255-460D-9AF6-4EB22F9D904F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveyOnline.Infrastructure", "SurveyOnline.Infrastructure\SurveyOnline.Infrastructure.csproj", "{EB2281D2-BC83-4C8C-91B8-D61C0FB138EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveyOnline.Application", "SurveyOnline.Application\SurveyOnline.Application.csproj", "{43910313-BE4B-4D52-88AE-D573584E8456}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveyOnline.EntityFrameworkCore", "SurveyOnline.EntityFrameworkCore\SurveyOnline.EntityFrameworkCore.csproj", "{150D364E-0526-4EA8-AB2D-9187B8DEEB3A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C66BC907-9753-451A-A8CA-BFB270ADE9FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C66BC907-9753-451A-A8CA-BFB270ADE9FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C66BC907-9753-451A-A8CA-BFB270ADE9FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C66BC907-9753-451A-A8CA-BFB270ADE9FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7587F9F1-C255-460D-9AF6-4EB22F9D904F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7587F9F1-C255-460D-9AF6-4EB22F9D904F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7587F9F1-C255-460D-9AF6-4EB22F9D904F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7587F9F1-C255-460D-9AF6-4EB22F9D904F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB2281D2-BC83-4C8C-91B8-D61C0FB138EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB2281D2-BC83-4C8C-91B8-D61C0FB138EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB2281D2-BC83-4C8C-91B8-D61C0FB138EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB2281D2-BC83-4C8C-91B8-D61C0FB138EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43910313-BE4B-4D52-88AE-D573584E8456}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43910313-BE4B-4D52-88AE-D573584E8456}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43910313-BE4B-4D52-88AE-D573584E8456}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43910313-BE4B-4D52-88AE-D573584E8456}.Release|Any CPU.Build.0 = Release|Any CPU
+		{150D364E-0526-4EA8-AB2D-9187B8DEEB3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{150D364E-0526-4EA8-AB2D-9187B8DEEB3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{150D364E-0526-4EA8-AB2D-9187B8DEEB3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{150D364E-0526-4EA8-AB2D-9187B8DEEB3A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D89B98E6-E35E-465E-94A0-4E1A2E419EE7}
+	EndGlobalSection
+EndGlobal
