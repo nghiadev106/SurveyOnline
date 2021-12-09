@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SurveyOnline.EntityFrameworkCore\SurveyOnline.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\SurveyOnline.Shared\SurveyOnline.Shared.csproj" />
   </ItemGroup>

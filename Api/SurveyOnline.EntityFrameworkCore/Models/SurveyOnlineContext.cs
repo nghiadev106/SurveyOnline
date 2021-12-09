@@ -17,6 +17,7 @@ namespace SurveyOnline.EntityFrameworkCore.Models
         {
         }
 
+        public DbSet<ScalarInt> ScalarIntValue { get; set; }
         public virtual DbSet<Answer> Answers { get; set; }
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; }
@@ -35,7 +36,6 @@ namespace SurveyOnline.EntityFrameworkCore.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=(LocalDb)\\MSSQLLocalDB;Database=SurveyOnline;Trusted_Connection=True;");
             }
         }
@@ -43,7 +43,7 @@ namespace SurveyOnline.EntityFrameworkCore.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
-
+            modelBuilder.Entity<ScalarInt>().HasNoKey();
             modelBuilder.Entity<Answer>(entity =>
             {
                 entity.ToTable("Answer");
@@ -228,6 +228,12 @@ namespace SurveyOnline.EntityFrameworkCore.Models
                     .HasForeignKey(d => d.QuestionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UsersAnswer_Question");
+
+                entity.HasOne(d => d.Survey)
+                    .WithMany(p => p.UsersAnswers)
+                    .HasForeignKey(d => d.SurveyId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UsersAnswer_Survey");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UsersAnswers)

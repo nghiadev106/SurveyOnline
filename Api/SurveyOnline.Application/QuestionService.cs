@@ -26,6 +26,7 @@ namespace SurveyOnline.Application
             Question question = new Question();
             question.Name = request.Name;
             question.Description = request.Description;
+            question.SortOrder = request.SortOrder;
             question.QuestionTypeId = request.QuestionTypeId;
             question.SurveyId = request.SurveyId;
             question.CreateDate = DateTime.Now;

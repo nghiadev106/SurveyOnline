@@ -50,27 +50,25 @@ export class CategoryComponent implements OnInit {
       pageSize: this.pageSize,
       keyword: this.txtSearchName,
     };
-    setTimeout(() => {
-      this.categoryService
-        .getAllPaging(data)
-        .pipe(first())
-        .subscribe({
-          next: (model) => {
-            this.categories = model.Items;
-            this.totalRecords = model.TotalItems;
-            this.checkSearch = false;
-            this.spinner.hide();
-          },
-          error: (err) => {
-            this.spinner.hide();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Thông báo',
-              detail: `Đã có lỗi !`,
-            });
-          },
-        });
-    }, 300);
+    this.categoryService
+      .getAllPaging(data)
+      .pipe(first())
+      .subscribe({
+        next: (model) => {
+          this.categories = model.Items;
+          this.totalRecords = model.TotalItems;
+          this.checkSearch = false;
+          this.spinner.hide();
+        },
+        error: (err) => {
+          this.spinner.hide();
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Thông báo',
+            detail: `Đã có lỗi !`,
+          });
+        },
+      });
   }
 
   onSearch(): void {

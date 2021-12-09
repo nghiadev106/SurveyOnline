@@ -10,6 +10,7 @@ namespace SurveyOnline.Shared.Questions
         public string Description { get; set; }
         public int SurveyId { get; set; }
         public int QuestionTypeId { get; set; }
-        public List<AnswerVm> Answers { get; set; }
+        public int SortOrder { get; set; }     
+        public List<AnswerVm> Answers_json { get; set; }
     }
 }

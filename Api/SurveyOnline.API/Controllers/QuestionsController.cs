@@ -104,6 +104,7 @@ namespace SurveyOnline.API.Controllers
             question.Name = request.Name;
             question.Description = request.Description;
             question.QuestionTypeId = request.QuestionTypeId;
+            question.SortOrder = request.SortOrder;
             var result = await _questionService.Update(question);
             if (result > 0)
             {

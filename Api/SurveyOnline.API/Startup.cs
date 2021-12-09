@@ -18,6 +18,7 @@ using SurveyOnline.Application;
 using SurveyOnline.Application.Interfaces;
 using SurveyOnline.EntityFrameworkCore.Identity;
 using SurveyOnline.EntityFrameworkCore.Models;
+using SurveyOnline.Infrastructure.Helpers;
 using SurveyOnline.Infrastructure.Infrastructure;
 using SurveyOnline.Infrastructure.Repositories;
 using SurveyOnline.Infrastructure.Repositories.Interfaces;
@@ -44,6 +45,10 @@ namespace SurveyOnline.API
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
+
+            services.AddOptions();                                      
+            var mailsettings = Configuration.GetSection("MailSettings");  
+            services.Configure<MailSettings>(mailsettings);
             services.AddDbContextPool<SurveyOnlineContext>(options =>
                options.UseSqlServer(
                    Configuration.GetConnectionString("DefaultConnection")));
@@ -95,9 +100,12 @@ namespace SurveyOnline.API
                 };
             });
 
-            // Email Sending Service
+            // Email Sending Service SendGrid
             services.AddSendGridEmailSender();
+            // Email Sending Service MailKit
+            services.AddTransient<ISendMailService, SendMailService>();
 
+            services.AddTransient<IDatabaseHelper, DatabaseHelper>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IDbFactory, DbFactory>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();          
@@ -108,6 +116,8 @@ namespace SurveyOnline.API
             services.AddTransient<ISurveyService, SurveyService>();
             services.AddTransient<IAnswerRepository, AnswerRepository>();
             services.AddTransient<IAnswerService, AnswerService>();
+            services.AddTransient<IUserAnswerRepository, UserAnswerRepository>();
+            services.AddTransient<IUserAnswerService, UserAnswerService>();
 
             // Auto Mapper Configurations
             var mapperConfig = new MapperConfiguration(mc =>

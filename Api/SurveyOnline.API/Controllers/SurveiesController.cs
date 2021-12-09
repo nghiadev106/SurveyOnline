@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SurveyOnline.API.Extensions;
 using SurveyOnline.API.Helpers;
 using SurveyOnline.Application.Interfaces;
 using SurveyOnline.Shared.Surveies;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace SurveyOnline.API.Controllers
@@ -69,6 +72,20 @@ namespace SurveyOnline.API.Controllers
             return Ok(survey);
         }
 
+        [HttpGet("getUserStatistics/{surveyId}")]
+        public async Task<IActionResult> GetUserStatistics(int surveyId)
+        {
+            var count = await _surveyService.GetUserStatistics(surveyId);
+            return Ok(count);
+        }
+
+        [HttpGet("getRatioStatistics/{surveyId}")]
+        public IActionResult GetRatioStatistics(int surveyId)
+        {
+            var survey = _surveyService.GetRatioStatistics(surveyId);
+            return Ok(survey);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] SurveyCreateRequest request)
         {
@@ -76,7 +93,7 @@ namespace SurveyOnline.API.Controllers
             {
                 return BadRequest(new ApiBadRequestResponse(ModelState, "Thêm mới không thành công"));
             }
-
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var result = await _surveyService.Add(request);
             if (result > 0)
             {

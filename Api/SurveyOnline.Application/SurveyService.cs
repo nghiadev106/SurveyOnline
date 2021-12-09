@@ -2,6 +2,7 @@
 using SurveyOnline.EntityFrameworkCore.Models;
 using SurveyOnline.Infrastructure.Infrastructure;
 using SurveyOnline.Infrastructure.Repositories.Interfaces;
+using SurveyOnline.Shared.Questions;
 using SurveyOnline.Shared.Surveies;
 using System;
 using System.Collections.Generic;
@@ -73,7 +74,19 @@ namespace SurveyOnline.Application
             return survey;
         }
 
-        public void Save()
+        public async Task<int> GetUserStatistics(int surveyId)
+        {
+            var count = await _surveyRepository.GetUserStatistics(surveyId);
+            return count;
+        }
+
+        public List<QuestionVm> GetRatioStatistics(int surveyId)
+        {
+            var survey =  _surveyRepository.GetRatioStatistics(surveyId);
+            return survey;
+        }
+
+            public void Save()
         {
             _unitOfWork.Commit();
         }

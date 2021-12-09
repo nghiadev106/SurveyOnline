@@ -30,18 +30,21 @@ export class QuestionComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params: Params) => {
-      this.surveyId = params["id"];
+      this.surveyId = params["surveyId"];
       this.loadData();
     });
 
     this.formAdd = this.fb.group({
       Name: this.fb.control('', [Validators.required]),
+      SortOrder: this.fb.control('', [Validators.required]),
       Description: this.fb.control(''),
       SurveyId: this.fb.control(this.surveyId, [Validators.required]),
       QuestionTypeId: this.fb.control('', [Validators.required]),
     });
+
     this.formEdit = this.fb.group({
       Name: this.fb.control('', [Validators.required]),
+      SortOrder: this.fb.control('', [Validators.required]),
       Description: this.fb.control(''),
       QuestionTypeId: this.fb.control('', [Validators.required])
     });
@@ -71,24 +74,22 @@ export class QuestionComponent implements OnInit {
   }
 
   loadQuestionTypes(): void {
-    setTimeout(() => {
-      this.questionService
-        .getAllQuestionTypes()
-        .pipe(first())
-        .subscribe({
-          next: (res) => {
-            this.questionTypes = res;
-          },
-          error: (err) => {
-            this.spinner.hide();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Thông báo',
-              detail: `Đã có lỗi !`,
-            });
-          },
-        });
-    }, 300);
+    this.questionService
+      .getAllQuestionTypes()
+      .pipe(first())
+      .subscribe({
+        next: (res) => {
+          this.questionTypes = res;
+        },
+        error: (err) => {
+          this.spinner.hide();
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Thông báo',
+            detail: `Đã có lỗi !`,
+          });
+        },
+      });
   }
 
   onAdd(): void {
@@ -145,6 +146,7 @@ export class QuestionComponent implements OnInit {
           this.id_Edit = res.Id;
           this.formEdit = this.fb.group({
             Name: this.fb.control(res.Name, [Validators.required]),
+            SortOrder: this.fb.control(res.SortOrder, [Validators.required]),
             Description: this.fb.control(res.Description),
             QuestionTypeId: this.fb.control(res.QuestionTypeId, [Validators.required])
           });
@@ -214,6 +216,7 @@ export class QuestionComponent implements OnInit {
   clearModalAdd() {
     this.formAdd = this.fb.group({
       Name: this.fb.control('', [Validators.required]),
+      SortOrder: this.fb.control('', [Validators.required]),
       Description: this.fb.control(''),
       SurveyId: this.fb.control(this.surveyId, [Validators.required]),
       QuestionTypeId: this.fb.control('', [Validators.required]),

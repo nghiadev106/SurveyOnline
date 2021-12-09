@@ -72,13 +72,20 @@
                       <td>{{survey.CreateDate| date: 'dd/MM/yyyy'}}</td>
                       <td>{{survey.Description}}</td>
                       <td>
-                        <button type="button" (click)="onGetEdit(survey.Id)" pTooltip="Sửa khảo sát"
-                          tooltipPosition="top" class="btn btn-info waves-effect waves-light mr-1"><i
-                            class="mdi mdi-pencil-outline"></i></button>
+                        <button routerLink="/admin/survey-detail/{{survey.Id}}" pTooltip="Làm khảo sát"
+                          tooltipPosition="top" class="btn btn-primary waves-effect waves-light mr-1"><i
+                            class="mdi mdi-checkbox-marked-outline"></i></button>
                         <button routerLink="/admin/survey/{{survey.Id}}/question" pTooltip="Quản lý câu hỏi"
                           tooltipPosition="top" class="btn btn-success waves-effect waves-light mr-1"><i
                             class="mdi mdi-eye">
                           </i></button>
+                        <button routerLink="/admin/report/{{survey.Id}}" pTooltip="Thống kê" tooltipPosition="top"
+                          class="btn btn-warning waves-effect waves-light mr-1"><i class="mdi mdi-file-document">
+                          </i></button>
+                        <button type="button" (click)="onGetEdit(survey.Id)" pTooltip="Sửa khảo sát"
+                          tooltipPosition="top" class="btn btn-info waves-effect waves-light mr-1"><i
+                            class="mdi mdi-pencil-outline"></i></button>
+
                         <button type="button" (click)="onDelete(survey.Id)" pTooltip="Xóa khảo sát"
                           tooltipPosition="top" class="btn btn-danger waves-effect waves-light"><i
                             class="mdi mdi-trash-can-outline"></i></button>
@@ -109,11 +116,10 @@
       <label>Tên khảo sát:</label>
       <input type="text" class="form-control" formControlName="Name" placeholder="Tên khảo sát">
     </div>
-    <div class="alert alert-danger" role="alert"
-      *ngIf="formAdd.controls.Name?.errors?.required && formAdd.controls.Name?.touched">
+    <div style="color: red;" *ngIf="formAdd.controls.Name?.errors?.required && formAdd.controls.Name?.touched">
       Tên khảo sát không được để trống!
     </div>
-    <p class="alert alert-danger" *ngIf="formAdd.controls['Name'].hasError('maxlength')">
+    <p style="color: red;" *ngIf="formAdd.controls['Name'].hasError('maxlength')">
       Tên khảo sát không được quá 250 ký tự.
     </p>
     <div class="form-group">
@@ -128,14 +134,14 @@
       <label>Số câu hỏi:</label>
       <input type="number" class="form-control" formControlName="NumberOfQuestion">
     </div>
-    <div class="alert alert-danger" role="alert"
+    <div style="color: red;"
       *ngIf="formAdd.controls.NumberOfQuestion?.errors?.required && formAdd.controls.NumberOfQuestion?.touched">
       Bạn phải nhập số câu hỏi
     </div>
-    <p class="alert alert-danger" *ngIf="formAdd.controls['NumberOfQuestion'].hasError('min')">
+    <p style="color: red;" *ngIf="formAdd.controls['NumberOfQuestion'].hasError('min')">
       Số câu hỏi ít nhất là 1
     </p>
-    <p class="alert alert-danger" *ngIf="formAdd.controls['NumberOfQuestion'].hasError('max')">
+    <p style="color: red;" *ngIf="formAdd.controls['NumberOfQuestion'].hasError('max')">
       Số câu hỏi tối đa là 10
     </p>
     <div class="form-group">
@@ -146,7 +152,7 @@
         </ng-container>
       </select>
     </div>
-    <div class="alert alert-danger" role="alert" *ngIf="formAdd.controls.CategoryId?.errors?.required">
+    <div style="color: red;" *ngIf="formAdd.controls.CategoryId?.errors?.required">
       Bạn phải chọn danh mục
     </div>
     <div class="form-group">
@@ -192,11 +198,10 @@
       <label>Tên chuyên mục:</label>
       <input type="text" class="form-control" formControlName="Name" placeholder="Tên chuyên mục">
     </div>
-    <div class="alert alert-danger" role="alert"
-      *ngIf="formEdit.controls.Name?.errors?.required && formEdit.controls.Name?.touched">
+    <div style="color: red;" *ngIf="formEdit.controls.Name?.errors?.required && formEdit.controls.Name?.touched">
       Tên khảo sát không được để trống!
     </div>
-    <p class="alert alert-danger" *ngIf="formEdit.controls['Name'].hasError('maxlength')">
+    <p style="color: red;" *ngIf="formEdit.controls['Name'].hasError('maxlength')">
       Tên khảo sát không được quá 250 ký tự.
     </p>
     <div class="form-group">
@@ -211,14 +216,14 @@
       <label>Số câu hỏi:</label>
       <input type="number" class="form-control" formControlName="NumberOfQuestion">
     </div>
-    <div class="alert alert-danger" role="alert"
+    <div style="color: red;"
       *ngIf="formEdit.controls.NumberOfQuestion?.errors?.required && formEdit.controls.NumberOfQuestion?.touched">
       Bạn phải nhập số câu hỏi
     </div>
-    <p class="alert alert-danger" *ngIf="formEdit.controls['NumberOfQuestion'].hasError('min')">
+    <p style="color: red;" *ngIf="formEdit.controls['NumberOfQuestion'].hasError('min')">
       Số câu hỏi ít nhất là 1
     </p>
-    <p class="alert alert-danger" *ngIf="formEdit.controls['NumberOfQuestion'].hasError('max')">
+    <p style="color: red;" *ngIf="formEdit.controls['NumberOfQuestion'].hasError('max')">
       Số câu hỏi tối đa là 10
     </p>
     <div class="form-group">
@@ -229,7 +234,7 @@
         </ng-container>
       </select>
     </div>
-    <div class="alert alert-danger" role="alert" *ngIf="formEdit.controls.CategoryId?.errors?.required">
+    <div style="color: red;" *ngIf="formEdit.controls.CategoryId?.errors?.required">
       Bạn phải chọn danh mục
     </div>
     <div class="form-group">

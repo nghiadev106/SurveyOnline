@@ -9,7 +9,7 @@ import { AuthGuard } from './_helpers';
 
 const routes: Routes = [
   //localhost:4200
-  { path: '', redirectTo: 'register', pathMatch: 'full' },
+  { path: '', redirectTo: 'admin', pathMatch: 'full' },
   {
     path: 'login',
     loadChildren: () =>

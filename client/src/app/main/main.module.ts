@@ -29,7 +29,17 @@ const routes: Routes = [
           import('./survey/survey.module').then((m) => m.SurveyModule),
       },
       {
-        path: 'survey/:id/question',
+        path: 'survey-detail/:surveyId',
+        loadChildren: () =>
+          import('./survey-detail/survey-detail.module').then((m) => m.SurveyDetailModule),
+      },
+      {
+        path: 'report/:surveyId',
+        loadChildren: () =>
+          import('./report/report.module').then((m) => m.ReportModule),
+      },
+      {
+        path: 'survey/:surveyId/question',
         loadChildren: () =>
           import('./question/question.module').then((m) => m.QuestionModule),
       },

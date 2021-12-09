@@ -70,7 +70,7 @@
       <label>Nội dung:</label>
       <textarea type="text" class="form-control" formControlName="Content" placeholder="Nội dung"></textarea>
     </div>
-    <div class="alert alert-danger" role="alert"
+    <div style="color: red;"
       *ngIf="formEdit.controls.Content?.errors?.required && formEdit.controls.Content?.touched">
       Nội dung câu trả lời không được để trống!
     </div>
@@ -99,7 +99,7 @@
       <label>Nội dung:</label>
       <textarea type="text" class="form-control" formControlName="Content" placeholder="Nội dung"></textarea>
     </div>
-    <div class="alert alert-danger" role="alert"
+    <div style="color: red;"
       *ngIf="formEdit.controls.Content?.errors?.required && formEdit.controls.Content?.touched">
       Nội dung câu trả lời không được để trống!
     </div>

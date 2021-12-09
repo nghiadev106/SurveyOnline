@@ -1183,6 +1183,7 @@
       },
       "SurveyOnline.Infrastructure/1.0.0": {
         "dependencies": {
+          "Microsoft.EntityFrameworkCore.Relational": "5.0.12",
           "SurveyOnline.EntityFrameworkCore": "1.0.0",
           "SurveyOnline.Shared": "1.0.0"
         },

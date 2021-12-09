@@ -16,12 +16,13 @@ namespace SurveyOnline.Infrastructure.Repositories
 
         public async Task<IEnumerable<QuestionDto>> GetQuestionBySurveyId(int surveyId)
         {
-            var questions = await DbContext.Questions.Where(x => x.SurveyId == surveyId)
+            var questions = await DbContext.Questions.Where(x => x.SurveyId == surveyId).OrderBy(x=>x.SortOrder)
                 .Select(q => new QuestionDto { 
                     Id=q.Id,
                     Name=q.Name,
                     Description=q.Description,
                     SurveyId=q.SurveyId,
+                    SortOrder=q.SortOrder,
                     QuestionTypeName=q.QuestionType.Name,
                     CreateDate=q.CreateDate
                 }).ToListAsync();            

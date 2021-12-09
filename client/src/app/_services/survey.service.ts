@@ -21,6 +21,19 @@ export class SurveyService {
     const url = `${this.API_URL}/paging?pageSize=${data.pageSize}&page=${data.page}&categoryId=${data.categoryId}&keyword=${data.keyword}`;
     return this.http.get<any>(url);
   }
+  GetSurveyDetail(surveyID: number): Observable<any> {
+    const url = `${this.API_URL}/getDetail/${surveyID}`;
+    return this.http.get<any>(url);
+  }
+
+  getRatioStatistics(surveyID: number): Observable<any> {
+    const url = `${this.API_URL}/getRatioStatistics/${surveyID}`;
+    return this.http.get<any>(url);
+  }
+  getUserStatistics(surveyID: number): Observable<any> {
+    const url = `${this.API_URL}/getUserStatistics/${surveyID}`;
+    return this.http.get<any>(url);
+  }
   add(survey: any): Observable<number> {
     const url = `${this.API_URL}`;
     var body = JSON.stringify(survey);

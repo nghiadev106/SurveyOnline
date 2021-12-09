@@ -28,19 +28,20 @@ namespace SurveyOnline.API.Controllers
         private readonly AppSettings _appSettings;
 
         private IEmailSender _emailsender;
+        private ISendMailService _sendMailservice;
 
         public UsersController(UserManager<AppUser> userManager,
            SignInManager<AppUser> signInManager,
            IOptions<AppSettings> appSettings,
-           IEmailSender emailsender
-
+           IEmailSender emailsender,
+           ISendMailService sendMailservice
            )
         {
             _userManager = userManager;
             _signManager = signInManager;
             _appSettings = appSettings.Value;
             _emailsender = emailsender;
-
+            _sendMailservice = sendMailservice;
         }
 
 
@@ -72,8 +73,15 @@ namespace SurveyOnline.API.Controllers
 
                 var callbackUrl = Url.Action("ConfirmEmail", "Users", new { UserId = user.Id, Code = code }, protocol: HttpContext.Request.Scheme);
 
-                await _emailsender.SendEmailAsync(user.Email, "Confirm Your Email", "Please confirm your e-mail by clicking this link: <a href=\"" + callbackUrl + "\">click here</a>");
+                //await _emailsender.SendEmailAsync(user.Email, "Confirm Your Email", "Please confirm your e-mail by clicking this link: <a href=\"" + callbackUrl + "\">click here</a>");
+                MailContent content = new MailContent
+                {
+                    To = user.Email,
+                    Subject = "Confirm Your Email",
+                    Body = "Please confirm your e-mail by clicking this link: <a href=\"" + callbackUrl + "\">click here</a>"
+                };
 
+                await _sendMailservice.SendMail(content);
                 return Ok(new { username = user.UserName, FullName=user.FullName,email = user.Email, status = 1, message = "Đăng ký tài khoản thành công, vui lòng xác nhận Email" });
 
             }

@@ -10,6 +10,7 @@ namespace SurveyOnline.Shared.Questions
         public string Name { get; set; }
         [Required(ErrorMessage = "Bạn phải chọn khảo sát")]
         public int SurveyId { get; set; }
+        public int SortOrder { get; set; }
         public string Description { get; set; }
 
         [Required(ErrorMessage = "Bạn phải chọn loại câu hỏi")]

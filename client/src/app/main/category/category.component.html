@@ -90,11 +90,11 @@
       <label>Tên danh mục:</label>
       <input type="text" class="form-control" formControlName="Name" placeholder="Tên danh mục">
     </div>
-    <div class="alert alert-danger" role="alert"
+    <div style="color: red;"
       *ngIf="formAdd.controls.Name?.errors?.required && formAdd.controls.Name?.touched">
       Tên danh mục không được để trống!
     </div>
-    <p class="alert alert-danger" *ngIf="formAdd.controls['Name'].hasError('maxlength')">
+    <p style="color: red;" *ngIf="formAdd.controls['Name'].hasError('maxlength')">
       Tên danh mục không được quá 250 ký tự.
     </p>
     <div class="form-group">
@@ -125,11 +125,11 @@
       <label>Tên chuyên mục:</label>
       <input type="text" class="form-control" formControlName="Name" placeholder="Tên chuyên mục">
     </div>
-    <div class="alert alert-danger" role="alert"
+    <div style="color: red;"
       *ngIf="formEdit.controls.Name?.errors?.required && formEdit.controls.Name?.touched">
       Tên danh mục không được để trống!
     </div>
-    <p class="alert alert-danger" *ngIf="formEdit.controls['Name'].hasError('maxlength')">
+    <p style="color: red;" *ngIf="formEdit.controls['Name'].hasError('maxlength')">
       Tên danh mục không được quá 250 ký tự.
     </p>
     <div class="form-group">

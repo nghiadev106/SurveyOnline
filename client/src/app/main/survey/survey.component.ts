@@ -68,48 +68,44 @@ export class SurveyComponent implements OnInit {
       keyword: this.txtSearchName,
       categoryId: this.categoryId
     };
-    setTimeout(() => {
-      this.surveyService
-        .getAllPaging(data)
-        .pipe(first())
-        .subscribe({
-          next: (res) => {
-            this.surveies = res.Items;
-            this.totalRecords = res.TotalItems;
-            this.checkSearch = false;
-            this.spinner.hide();
-          },
-          error: (err) => {
-            this.spinner.hide();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Thông báo',
-              detail: `Đã có lỗi !`,
-            });
-          },
-        });
-    }, 300);
+    this.surveyService
+      .getAllPaging(data)
+      .pipe(first())
+      .subscribe({
+        next: (res) => {
+          this.surveies = res.Items;
+          this.totalRecords = res.TotalItems;
+          this.checkSearch = false;
+          this.spinner.hide();
+        },
+        error: (err) => {
+          this.spinner.hide();
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Thông báo',
+            detail: `Đã có lỗi !`,
+          });
+        },
+      });
   }
 
   loadCategories(): void {
-    setTimeout(() => {
-      this.categoryService
-        .getAll()
-        .pipe(first())
-        .subscribe({
-          next: (res) => {
-            this.categories = res;
-          },
-          error: (err) => {
-            this.spinner.hide();
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Thông báo',
-              detail: `Đã có lỗi !`,
-            });
-          },
-        });
-    }, 300);
+    this.categoryService
+      .getAll()
+      .pipe(first())
+      .subscribe({
+        next: (res) => {
+          this.categories = res;
+        },
+        error: (err) => {
+          this.spinner.hide();
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Thông báo',
+            detail: `Đã có lỗi !`,
+          });
+        },
+      });
   }
 
   onSearch(): void {

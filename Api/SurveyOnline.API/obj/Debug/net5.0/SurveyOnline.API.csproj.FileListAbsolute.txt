@@ -152,3 +152,6 @@ D:\LPTECHNOLOGY\SurveyOnline\Api\SurveyOnline.API\obj\Debug\net5.0\SurveyOnline.
 D:\LPTECHNOLOGY\SurveyOnline\Api\SurveyOnline.API\obj\Debug\net5.0\ref\SurveyOnline.API.dll
 D:\LPTECHNOLOGY\SurveyOnline\Api\SurveyOnline.API\obj\Debug\net5.0\SurveyOnline.API.pdb
 D:\LPTECHNOLOGY\SurveyOnline\Api\SurveyOnline.API\obj\Debug\net5.0\SurveyOnline.API.genruntimeconfig.cache
+D:\LPTECHNOLOGY\SurveyOnline\Api\SurveyOnline.API\bin\Debug\net5.0\MailKit.dll
+D:\LPTECHNOLOGY\SurveyOnline\Api\SurveyOnline.API\bin\Debug\net5.0\MimeKit.dll
+D:\LPTECHNOLOGY\SurveyOnline\Api\SurveyOnline.API\bin\Debug\net5.0\BouncyCastle.Crypto.dll

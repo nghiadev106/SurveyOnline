@@ -1,5 +1,6 @@
 ﻿using SurveyOnline.EntityFrameworkCore;
 using SurveyOnline.EntityFrameworkCore.Models;
+using SurveyOnline.Shared.Questions;
 using SurveyOnline.Shared.Surveies;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace SurveyOnline.Application.Interfaces
 {
     public interface ISurveyService
     {
-        Task<int> Add(SurveyCreateRequest Survey);
+        Task<int> Add(SurveyCreateRequest request);
 
         Task<int> Update(Survey category);
 
@@ -23,6 +24,10 @@ namespace SurveyOnline.Application.Interfaces
         Task<Survey> GetById(int id);
 
         Task<SurveyVm> GetSurveyDetail(int surveyId);
+
+        Task<int> GetUserStatistics(int surveyId);
+
+        List<QuestionVm> GetRatioStatistics(int surveyId);
 
         void Save();
     }
