@@ -18,26 +18,25 @@
             <div class="card-body">
               <div id="outside">
                 <form id="survey-form" action="" method="post">
+                  <p id="description"><b>Số người khảo khát:</b> {{this.count}}</p>
                   <fieldset *ngFor="let question of questions; let i = index">
                     <div *ngIf="question.QuestionTypeId==1">
                       <label for="Gender">Câu {{i+1}}: {{question.Name}}</label>
-                      <p *ngFor="let answer of question.Answers">
-                        <input type="radio" name="{{answer.QuestionId}}" value="{{answer.Id}}"
-                          checked>{{answer.Content}} - {{answer.Ratio}
+                      <p *ngFor="let answer of question.Answers_json">
+                        <input type="radio" name="{{answer.QuestionId}}" value="{{answer.Id}}">{{answer.Content}} -
+                        {{answer.Ratio}}%
                       </p>
                     </div>
                     <div *ngIf="question.QuestionTypeId==2">
-                      <label for="Gender">Câu {{question.SortOrder}}: {{question.Name}}</label>
-                      <p *ngFor="let answer of question.Answers">
-                        <input type="checkbox" name="{{answer.QuestionId}}" value="{{answer.Id}}">{{answer.Content}} - {{answer.Ratio}
+                      <label for="Gender">Câu {{i+1}}: {{question.Name}}</label>
+                      <p *ngFor="let answer of question.Answers_json">
+                        <input type="checkbox" name="{{answer.QuestionId}}" value="{{answer.Id}}">{{answer.Content}} -
+                        {{answer.Ratio}}%
                       </p>
                     </div>
                   </fieldset>
-
-                  <div id="submitbutton">
-                    <button type="submit" id="submit">Send your application</button>
-                  </div>
-
+                  <button routerLink="/admin/survey" pTooltip="Danh sách khảo sát" tooltipPosition="top"
+                    class="btn btn-success waves-effect waves-light mr-1">Quay lại</button>
                 </form>
               </div>
             </div>

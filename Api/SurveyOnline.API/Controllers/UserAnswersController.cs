@@ -6,7 +6,6 @@ using SurveyOnline.EntityFrameworkCore.Models;
 using SurveyOnline.Shared.UserAnswer;
 using System;
 using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace SurveyOnline.API.Controllers
@@ -31,15 +30,21 @@ namespace SurveyOnline.API.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(new ApiBadRequestResponse("Dữ liệu không hợp lệ"));
-            }
+                return BadRequest(new ApiBadRequestResponse(ModelState, "Thêm mới không thành công"));
+            }         
 
             List<UsersAnswer> usersAnswers = new List<UsersAnswer>();
             foreach (var item in request)
             {
+                var userAnswer =await _userAnswerService.CheckAnswer(item.UserId, item.SurveyId,item.QuestionId,item.AnswerId);
+                if (userAnswer!=null)
+                {
+                    return BadRequest(new ApiBadRequestResponse("Bạn đã làm khảo sát này!"));
+                }
                 UsersAnswer entity = new UsersAnswer();
                 entity.AnswerId = item.AnswerId;
                 entity.UserId = item.UserId;
+                entity.SurveyId = item.SurveyId;
                 entity.QuestionId = item.QuestionId;
                 entity.Response = item.Response;
                 entity.CreateDate = DateTime.Now;

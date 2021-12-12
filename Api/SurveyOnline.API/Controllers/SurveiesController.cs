@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SurveyOnline.API.Extensions;
 using SurveyOnline.API.Helpers;
 using SurveyOnline.Application.Interfaces;
 using SurveyOnline.Shared.Surveies;
@@ -18,15 +18,18 @@ namespace SurveyOnline.API.Controllers
     {
         private readonly ISurveyService _surveyService;
         private readonly IQuestionService _questionService;
+        private readonly IUserAnswerService _userAnswerService;
         private readonly IMapper _mapper;
 
         public SurveiesController(
             ISurveyService surveyService,
             IQuestionService questionService,
-            IMapper mapper)
+            IUserAnswerService userAnswerService,
+        IMapper mapper)
         {
             _surveyService = surveyService;
             _questionService = questionService;
+            _userAnswerService = userAnswerService;
             _mapper = mapper;
         }
 
@@ -39,6 +42,7 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpGet("paging")]
+        [Authorize(Policy = "RequireLoggedIn")]
         public async Task<IActionResult> GetAllPaging(int? categoryId, string keyword, int page, int pageSize = 10)
         {
             var lstSurveies = await _surveyService.GetAllPaging(categoryId, keyword);
@@ -54,8 +58,9 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpGet("{surveyId}")]
+        [Authorize(Policy = "RequireAdminOrCustomer")]
         public async Task<IActionResult> GetById(int surveyId)
-        {
+        {          
             var survey = await _surveyService.GetById(surveyId);
             if (survey == null)
                 return NotFound(new ApiNotFoundResponse($"Không tìm thấy khảo sát Id: {surveyId}"));
@@ -63,9 +68,14 @@ namespace SurveyOnline.API.Controllers
             return Ok(surveyVm);
         }
 
-        [HttpGet("getDetail/{surveyId}")]
-        public async Task<IActionResult> GetSurveyDetail(int surveyId)
+        [HttpGet("getDetail/{surveyId}/user/{userId}")]
+        public async Task<IActionResult> GetSurveyDetail(string userId, int surveyId)
         {
+            var userAnswer =await _userAnswerService.CheckUserAnswer(userId, surveyId);
+            if (userAnswer != null)
+            {
+                return BadRequest(new ApiBadRequestResponse("Bạn đã làm khảo sát này!"));
+            }
             var survey = await _surveyService.GetSurveyDetail(surveyId);
             if (survey == null)
                 return NotFound(new ApiNotFoundResponse($"Không tìm thấy khảo sát Id: {surveyId}"));

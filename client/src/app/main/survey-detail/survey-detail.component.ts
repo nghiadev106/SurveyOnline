@@ -1,6 +1,8 @@
+import { UserAnswerService } from './../../_services/user-answer.service';
+import { AuthenticationService } from 'src/app/_services/authen.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { first } from 'rxjs/operators';
@@ -12,19 +14,25 @@ import { SurveyService } from 'src/app/_services/survey.service';
   styleUrls: ['./survey-detail.component.css']
 })
 export class SurveyDetailComponent implements OnInit {
-
   surveyId: number;
+  userId: string;
   survey: any;
+  isTake: boolean = false;
+  isSuccess: boolean = false;
   constructor(
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
+    private authenService: AuthenticationService,
     private surveyService: SurveyService,
-    private fb: FormBuilder,
+    private userAnswerService: UserAnswerService,
     private spinner: NgxSpinnerService,
+    private router: Router,
     private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    this.userId = this.authenService.userValue().UserId;
+    this.userAnswerService.clearAnswers();
     this.activatedRoute.params.subscribe((params: Params) => {
       this.surveyId = params["surveyId"];
       this.loadData();
@@ -34,7 +42,7 @@ export class SurveyDetailComponent implements OnInit {
   loadData(): void {
     this.spinner.show();
     this.surveyService
-      .GetSurveyDetail(this.surveyId)
+      .GetSurveyDetail(this.userId, this.surveyId)
       .pipe(first())
       .subscribe({
         next: (res) => {
@@ -43,14 +51,109 @@ export class SurveyDetailComponent implements OnInit {
           this.spinner.hide();
         },
         error: (err) => {
+          if (err.StatusCode) {
+            if (err.StatusCode === 400) {
+              this.isTake = true;
+            }
+            this.messageService.add({
+              severity: 'error',
+              summary: err.Message,
+              detail: err.Errors,
+            });
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Thông báo',
+              detail: `Đã có lỗi !`,
+            });
+          }
           this.spinner.hide();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Thông báo',
-            detail: `Đã có lỗi !`,
-          });
         },
       });
+  }
+
+  onSubmit() {
+    this.confirmationService.confirm({
+      header: 'Lưu khảo sát ?',
+      message: 'Bạn có chắc muốn lưu khảo sát ?',
+      accept: () => {
+        this.userAnswerService.onSubmit()
+          .pipe(first())
+          .subscribe({
+            next: (res) => {
+              //console.log(res);
+              if (res !== null) {
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Thông báo',
+                  detail: 'Lưu thông tin thành công !',
+                });
+                this.userAnswerService.clearAnswers();
+                this.router.navigateByUrl('/admin/survey');
+              }
+            },
+            error: (err) => {
+              if (err.StatusCode) {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: err.Message,
+                  detail: err.Errors,
+                });
+              } else {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Thông báo',
+                  detail: `Đã có lỗi !`,
+                });
+              }
+            },
+          });
+      },
+    });
+  }
+
+  onChangeRadioButton(item, event) {
+    var isChecked = event.target.checked;
+    if (isChecked) {
+      this.changeRadioButton(item, this.userId, this.surveyId);
+    }
+  }
+
+  onChangeSelectBox(item, event) {
+    var isChecked = event.target.checked;
+    if (isChecked) {
+      this.changeSelectBox(item, this.userId, this.surveyId);
+    } else {
+      this.deleteAnswer(item.AnswerId, this.surveyId)
+    }
+  }
+
+  onBlurEvent(event: any, questionId: number) {
+    if (event.target.value !== '') {
+      console.log(event.target.value);
+      var response = event.target.value
+      this.userAnswerService.BlurEvent(this.userId, questionId, this.surveyId, response);
+    }
+
+
+  }
+
+  getListAnswers(): any[] {
+    var lstAnswer = this.userAnswerService.getListAnswers();
+    return lstAnswer;
+  }
+
+  changeRadioButton(item: any, userId: string, questionId: number) {
+    this.userAnswerService.changeRadioButton(item, userId, questionId);
+  }
+
+  changeSelectBox(item: any, userId: string, questionId: number) {
+    this.userAnswerService.changeCheckBox(item, userId, questionId);
+  }
+
+
+  deleteAnswer(answerId: number, questionId: number) {
+    this.userAnswerService.deleteAnswer(answerId, questionId);
   }
 
 }

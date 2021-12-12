@@ -46,7 +46,7 @@
                           class="btn btn-info waves-effect waves-light mr-1"><i
                             class="mdi mdi-pencil-outline"></i></button>
                         <button routerLink="/admin/survey/{{surveyId}}/question/{{item.Id}}/answer"
-                          pTooltip="Quản lý câu hỏi" tooltipPosition="top"
+                          pTooltip="Quản lý câu trả lời" tooltipPosition="top"
                           class="btn btn-success waves-effect waves-light mr-1"><i class="mdi mdi-eye">
                           </i></button>
                         <button type="button" (click)="onDelete(item.Id)" pTooltip="Xóa câu hỏi" tooltipPosition="top"
@@ -79,8 +79,7 @@
       <label>Tên câu hỏi:</label>
       <input type="text" class="form-control" formControlName="Name" placeholder="Tên câu hỏi">
     </div>
-    <div style="color: red;"
-      *ngIf="formAdd.controls.Name?.errors?.required && formAdd.controls.Name?.touched">
+    <div style="color: red;" *ngIf="formAdd.controls.Name?.errors?.required && formAdd.controls.Name?.touched">
       Tên câu hỏi không được để trống!
     </div>
     <p style="color: red;" *ngIf="formAdd.controls['Name'].hasError('maxlength')">
@@ -133,8 +132,7 @@
       <label>Tên chuyên mục:</label>
       <input type="text" class="form-control" formControlName="Name" placeholder="Tên chuyên mục">
     </div>
-    <div style="color: red;"
-      *ngIf="formEdit.controls.Name?.errors?.required && formEdit.controls.Name?.touched">
+    <div style="color: red;" *ngIf="formEdit.controls.Name?.errors?.required && formEdit.controls.Name?.touched">
       Tên câu hỏi không được để trống!
     </div>
     <p style="color: red;" *ngIf="formEdit.controls['Name'].hasError('maxlength')">

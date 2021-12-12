@@ -15,11 +15,24 @@ namespace SurveyOnline.Infrastructure.Repositories
         public UserAnswerRepository(IDbFactory dbFactory)
            : base(dbFactory) { }
 
-        public async Task<UsersAnswer> GetSurveyDetail(string userId,int surveyId)
+        public async Task<UsersAnswer> CheckUserAnswer(string userId,int surveyId)
         {
-            UsersAnswer query = await DbContext.UsersAnswers.Where(x => x.UserId == userId ).FirstOrDefaultAsync();
-
+            UsersAnswer query = await DbContext.UsersAnswers.Where(x => x.UserId == userId && x.SurveyId==surveyId).FirstOrDefaultAsync();
             return query;
+        }
+
+        public async Task<UsersAnswer> CheckAnswer(string userId, int surveyId,int questionId,int? answerId)
+        {
+            if (answerId != null)
+            {
+                UsersAnswer query = await DbContext.UsersAnswers.Where(x => x.UserId == userId && x.SurveyId == surveyId && x.QuestionId == questionId && x.AnswerId == answerId).FirstOrDefaultAsync();
+                return query;
+            }
+            else
+            {
+                UsersAnswer query = await DbContext.UsersAnswers.Where(x => x.UserId == userId && x.SurveyId == surveyId && x.QuestionId == questionId).FirstOrDefaultAsync();
+                return query;
+            }
         }
     }
 }

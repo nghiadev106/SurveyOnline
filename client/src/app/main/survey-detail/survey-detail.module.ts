@@ -8,6 +8,8 @@ import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { DialogModule } from 'primeng/dialog';
+import { TooltipModule } from 'primeng/tooltip';
 
 const routes: Routes = [
   {
@@ -24,11 +26,13 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     RouterModule.forChild(routes),
+    DialogModule,
     ToastModule,
     ConfirmDialogModule,
     ReactiveFormsModule,
     NgbAlertModule,
     NgxSpinnerModule,
+    TooltipModule
   ],
   providers: [MessageService, ConfirmationService, FormBuilder]
 })

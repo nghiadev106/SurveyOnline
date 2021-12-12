@@ -43,11 +43,19 @@ export class ReportComponent implements OnInit {
         },
         error: (err) => {
           this.spinner.hide();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Thông báo',
-            detail: `Đã có lỗi !`,
-          });
+          if (err.StatusCode) {
+            this.messageService.add({
+              severity: 'error',
+              summary: err.Message,
+              detail: err.Errors,
+            });
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Thông báo',
+              detail: `Đã có lỗi !`,
+            });
+          }
         },
       });
   }
@@ -65,11 +73,19 @@ export class ReportComponent implements OnInit {
         },
         error: (err) => {
           this.spinner.hide();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Thông báo',
-            detail: `Đã có lỗi !`,
-          });
+          if (err.StatusCode) {
+            this.messageService.add({
+              severity: 'error',
+              summary: err.Message,
+              detail: err.Errors,
+            });
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Thông báo',
+              detail: `Đã có lỗi !`,
+            });
+          }
         },
       });
   }

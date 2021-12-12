@@ -16,7 +16,7 @@
         <div class="col-xl-12">
           <div class="card m-b-30">
             <div class="card-body">
-              <div id="outside">
+              <div id="outside" *ngIf="isTake===false,else elseSurvey">
                 <form id="survey-form" action="" method="post">
                   <h1 id="title">{{survey.Name}}</h1>
                   <p id="description"><b>Số câu hỏi:</b> {{survey.NumberOfQuestion}}</p>
@@ -24,30 +24,36 @@
                   <fieldset *ngFor="let question of survey.Questions; let i = index">
                     <div *ngIf="question.QuestionTypeId==1">
                       <label for="Gender">Câu {{i+1}}: {{question.Name}}</label>
-                      <p *ngFor="let answer of question.Answers">
-                        <input type="radio" name="{{answer.QuestionId}}" value="{{answer.Id}}"
-                          checked>{{answer.Content}}
+                      <p *ngFor="let answer of question.Answers_json">
+                        <input type="radio" (change)="onChangeRadioButton(answer,$event)" name="{{answer.QuestionId}}"
+                          value="{{answer.Id}}">{{answer.Content}}
                       </p>
                     </div>
                     <div *ngIf="question.QuestionTypeId==2">
                       <label for="Gender">Câu {{question.SortOrder}}: {{question.Name}}</label>
-                      <p *ngFor="let answer of question.Answers">
-                        <input type="checkbox" name="{{answer.QuestionId}}" value="{{answer.Id}}">{{answer.Content}}
+                      <p *ngFor="let answer of question.Answers_json">
+                        <input type="checkbox" (change)="onChangeSelectBox(answer,$event)"
+                          value="{{answer.Id}}">{{answer.Content}}
                       </p>
                     </div>
                     <div *ngIf="question.QuestionTypeId==3">
                       <label for="msg">Câu {{question.SortOrder}}: {{question.Name}}</label><br>
-                      <textarea id="msg" name="user_message" rows="4" cols="50"
+                      <textarea id="msg" (blur)="onBlurEvent($event,question.Id)" name="user_message" rows="4" cols="50"
                         placeholder="Enter Text Here"></textarea>
                     </div>
                   </fieldset>
-
+                  <button routerLink="/admin/survey" pTooltip="Danh sách khảo sát" tooltipPosition="top"
+                    class="btn btn-success waves-effect waves-light mr-1">Quay lại</button>
                   <div id="submitbutton">
-                    <button type="submit" id="submit">Send your application</button>
+                    <button type="button" id="submit" (click)="onSubmit()">Lưu thông tin</button>
                   </div>
-
                 </form>
+
               </div>
+              <ng-template #elseSurvey>Bạn đã làm khảo sát này <button routerLink="/admin/survey"
+                  pTooltip="Danh sách khảo sát" tooltipPosition="top"
+                  class="btn btn-success waves-effect waves-light mr-1">Quay lại</button></ng-template>
+
             </div>
           </div>
         </div>

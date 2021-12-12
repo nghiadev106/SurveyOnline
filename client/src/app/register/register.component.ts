@@ -67,13 +67,20 @@ export class RegisterComponent implements OnInit {
             this.spinner.hide();
           }
         },
-        (error) => {
-          console.log(error.error);
-          this.messageService.add({
-            severity: 'error',
-            summary: error.error.Message,
-            detail: error.error.Errors,
-          });
+        (err: any) => {
+          if (err.StatusCode) {
+            this.messageService.add({
+              severity: 'error',
+              summary: err.Message,
+              detail: err.Errors,
+            });
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Thông báo',
+              detail: `Đã có lỗi !`,
+            });
+          }
           this.spinner.hide();
         }
       );

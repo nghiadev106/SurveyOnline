@@ -15,6 +15,7 @@ namespace SurveyOnline.Shared.Surveies
         public int CategoryId { get; set; }
 
         [Range(1, 10, ErrorMessage = "Số câu hỏi từ 1 đến 10 câu")]
+        //[MaxLength(2, ErrorMessage = "max lengh 2")]
         public int? NumberOfQuestion { get; set; }
         public string CreateBy { get; set; }
         public int? Status { get; set; }

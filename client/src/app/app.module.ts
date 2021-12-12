@@ -2,14 +2,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AuthGuard } from './_helpers';
+import { AuthGuard, ErrorInterceptor, JwtInterceptor } from './_helpers';
 
 const routes: Routes = [
   //localhost:4200
-  { path: '', redirectTo: 'admin', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   {
     path: 'login',
     loadChildren: () =>
@@ -23,7 +23,12 @@ const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () => import('./main/main.module').then((m) => m.MainModule),
-    //loadChildren: () => import('./main/main.module').then((m) => m.MainModule), canActivate: [AuthGuard],
+    //loadChildren: () => import('./main/main.module').then((m) => m.MainModule), canActivate: [AuthGuard]
+  },
+  {
+    path: 'access-denied',
+    loadChildren: () =>
+      import('./access-denied/access-denied.module').then((m) => m.AccessDeniedModule),
   },
   {
     path: '**',
@@ -42,7 +47,10 @@ const routes: Routes = [
     NgbModule,
     HttpClientModule
   ],
-  providers: [AuthGuard],
+  providers: [
+    AuthGuard,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

@@ -62,11 +62,19 @@ export class CategoryComponent implements OnInit {
         },
         error: (err) => {
           this.spinner.hide();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Thông báo',
-            detail: `Đã có lỗi !`,
-          });
+          if (err.StatusCode) {
+            this.messageService.add({
+              severity: 'error',
+              summary: err.Message,
+              detail: err.Errors,
+            });
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Thông báo',
+              detail: `Đã có lỗi !`,
+            });
+          }
         },
       });
   }
@@ -94,18 +102,11 @@ export class CategoryComponent implements OnInit {
           }
         },
         error: (err: any) => {
-          if (err.error.StatusCode === 400) {
+          if (err.StatusCode) {
             this.messageService.add({
               severity: 'error',
-              summary: 'Thông báo',
-              detail: err.error.Message,
-            });
-          }
-          else if (err.error.StatusCode === 500) {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Thông báo',
-              detail: 'Đã có lỗi hệ thống',
+              summary: err.Message,
+              detail: err.Errors,
             });
           } else {
             this.messageService.add({
@@ -135,14 +136,13 @@ export class CategoryComponent implements OnInit {
           this.spinner.hide();
         },
         error: (err) => {
-          if (err.error.StatusCode === 404) {
+          if (err.StatusCode) {
             this.messageService.add({
               severity: 'error',
-              summary: 'Thông báo',
-              detail: err.error.Message,
+              summary: err.Message,
+              detail: err.Errors,
             });
-          }
-          else {
+          } else {
             this.messageService.add({
               severity: 'error',
               summary: 'Thông báo',
@@ -172,18 +172,11 @@ export class CategoryComponent implements OnInit {
             }
           },
           error: (err) => {
-            if (err.error.StatusCode === 400) {
+            if (err.StatusCode) {
               this.messageService.add({
                 severity: 'error',
-                summary: 'Thông báo',
-                detail: err.error.Message,
-              });
-            }
-            else if (err.error.StatusCode === 500) {
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Thông báo',
-                detail: 'Đã có lỗi hệ thống',
+                summary: err.Message,
+                detail: err.Errors,
               });
             } else {
               this.messageService.add({
@@ -223,14 +216,13 @@ export class CategoryComponent implements OnInit {
               }
             },
             error: (err) => {
-              if (err.error.StatusCode === 404) {
+              if (err.StatusCode) {
                 this.messageService.add({
                   severity: 'error',
-                  summary: 'Thông báo',
-                  detail: err.error.Message,
+                  summary: err.Message,
+                  detail: err.Errors,
                 });
-              }
-              else {
+              } else {
                 this.messageService.add({
                   severity: 'error',
                   summary: 'Thông báo',

@@ -21,8 +21,8 @@ export class SurveyService {
     const url = `${this.API_URL}/paging?pageSize=${data.pageSize}&page=${data.page}&categoryId=${data.categoryId}&keyword=${data.keyword}`;
     return this.http.get<any>(url);
   }
-  GetSurveyDetail(surveyID: number): Observable<any> {
-    const url = `${this.API_URL}/getDetail/${surveyID}`;
+  GetSurveyDetail(userId: string, surveyID: number): Observable<any> {
+    const url = `${this.API_URL}/getDetail/${surveyID}/user/${userId}`;
     return this.http.get<any>(url);
   }
 

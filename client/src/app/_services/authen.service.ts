@@ -24,8 +24,8 @@ export class AuthenticationService {
   private UserRole = new BehaviorSubject<string>(localStorage.getItem('userRole'));
 
   constructor(private readonly http: HttpClient, private router: Router) { }
-  public get userValue(): any {
-    return this.userLogin.value;
+  public userValue(): any {
+    return JSON.parse(localStorage.getItem("user"));
   }
   login(login: any): Observable<any> {
     const url = `${this.API_URL}/users/authenticate`;
@@ -132,6 +132,33 @@ export class AuthenticationService {
 
   get currentUserRole() {
     return this.UserRole.asObservable();
+  }
+
+  RequireAdminOrCustomer() {
+    var currentUserRole = localStorage.getItem('userRole');
+    var result: boolean = false;
+    if (currentUserRole == "Admin" || currentUserRole === "Customer") {
+      result = true;
+    }
+    return result;
+  }
+
+  RequireLoggedIn() {
+    var currentUserRole = localStorage.getItem('userRole');
+    var result: boolean = false;
+    if (currentUserRole == "Admin" || currentUserRole === "Customer" || currentUserRole === "Guest") {
+      result = true;
+    }
+    return result;
+  }
+
+  RequireAdmin() {
+    var currentUserRole = localStorage.getItem('userRole');
+    var result: boolean = false;
+    if (currentUserRole == "Admin") {
+      result = true;
+    }
+    return result;
   }
 
 

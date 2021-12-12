@@ -146,6 +146,7 @@ namespace SurveyOnline.API.Controllers
 
                 return Ok(new {
                     token = tokenHandler.WriteToken(token),
+                    UserId=user.Id,
                     Expiration = token.ValidTo,
                     Username = user.UserName,
                     Email=user.Email,

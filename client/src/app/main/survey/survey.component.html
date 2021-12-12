@@ -17,8 +17,9 @@
           <div class="card m-b-30">
             <div class="card-body">
               <div class="row mb-1">
-                <div class="col-sm-7"><button type="button" (click)="displayAdd = true"
-                    class="btn btn-success waves-effect waves-light"> <i class="mdi mdi-plus"></i>
+                <div class="col-sm-7"><button type="button" *ngIf="authenticationService.RequireAdminOrCustomer()"
+                    (click)="displayAdd = true" class="btn btn-success waves-effect waves-light"> <i
+                      class="mdi mdi-plus"></i>
                     Thêm mới</button></div>
                 <div class="col-sm-5" style="display: flex;">
                   <input class="form-control" type="search" value="{{txtSearchName}}" [(ngModel)]="txtSearchName"
@@ -75,19 +76,23 @@
                         <button routerLink="/admin/survey-detail/{{survey.Id}}" pTooltip="Làm khảo sát"
                           tooltipPosition="top" class="btn btn-primary waves-effect waves-light mr-1"><i
                             class="mdi mdi-checkbox-marked-outline"></i></button>
-                        <button routerLink="/admin/survey/{{survey.Id}}/question" pTooltip="Quản lý câu hỏi"
+                        <button *ngIf="authenticationService.RequireAdminOrCustomer()"
+                          routerLink="/admin/survey/{{survey.Id}}/question" pTooltip="Quản lý câu hỏi"
                           tooltipPosition="top" class="btn btn-success waves-effect waves-light mr-1"><i
                             class="mdi mdi-eye">
                           </i></button>
-                        <button routerLink="/admin/report/{{survey.Id}}" pTooltip="Thống kê" tooltipPosition="top"
+                        <button *ngIf="authenticationService.RequireAdminOrCustomer()"
+                          routerLink="/admin/report/{{survey.Id}}" pTooltip="Thống kê" tooltipPosition="top"
                           class="btn btn-warning waves-effect waves-light mr-1"><i class="mdi mdi-file-document">
                           </i></button>
-                        <button type="button" (click)="onGetEdit(survey.Id)" pTooltip="Sửa khảo sát"
-                          tooltipPosition="top" class="btn btn-info waves-effect waves-light mr-1"><i
+                        <button *ngIf="authenticationService.RequireAdminOrCustomer()" type="button"
+                          (click)="onGetEdit(survey.Id)" pTooltip="Sửa khảo sát" tooltipPosition="top"
+                          class="btn btn-info waves-effect waves-light mr-1"><i
                             class="mdi mdi-pencil-outline"></i></button>
 
-                        <button type="button" (click)="onDelete(survey.Id)" pTooltip="Xóa khảo sát"
-                          tooltipPosition="top" class="btn btn-danger waves-effect waves-light"><i
+                        <button *ngIf="authenticationService.RequireAdminOrCustomer()" type="button"
+                          (click)="onDelete(survey.Id)" pTooltip="Xóa khảo sát" tooltipPosition="top"
+                          class="btn btn-danger waves-effect waves-light"><i
                             class="mdi mdi-trash-can-outline"></i></button>
                       </td>
                     </tr>

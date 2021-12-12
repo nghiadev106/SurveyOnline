@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../../_services/authen.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -32,6 +33,7 @@ export class SurveyComponent implements OnInit {
     private categoryService: CategoryService,
     private surveyService: SurveyService,
     private fb: FormBuilder,
+    public authenticationService: AuthenticationService,
     private spinner: NgxSpinnerService
   ) { }
   ngOnInit(): void {
@@ -80,11 +82,20 @@ export class SurveyComponent implements OnInit {
         },
         error: (err) => {
           this.spinner.hide();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Thông báo',
-            detail: `Đã có lỗi !`,
-          });
+          if (err.StatusCode) {
+            this.messageService.add({
+              severity: 'error',
+              summary: err.Message,
+              detail: err.Errors,
+            });
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Thông báo',
+              detail: `Đã có lỗi !`,
+            });
+          }
+          this.spinner.hide();
         },
       });
   }
@@ -98,12 +109,19 @@ export class SurveyComponent implements OnInit {
           this.categories = res;
         },
         error: (err) => {
-          this.spinner.hide();
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Thông báo',
-            detail: `Đã có lỗi !`,
-          });
+          if (err.StatusCode) {
+            this.messageService.add({
+              severity: 'error',
+              summary: err.Message,
+              detail: err.Errors,
+            });
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Thông báo',
+              detail: `Đã có lỗi !`,
+            });
+          }
         },
       });
   }
@@ -132,11 +150,11 @@ export class SurveyComponent implements OnInit {
           }
         },
         error: (err: any) => {
-          if (err.error.StatusCode === 400 || err.error.StatusCode === 500) {
+          if (err.StatusCode) {
             this.messageService.add({
               severity: 'error',
-              summary: err.error.Message,
-              detail: err.error.Errors,
+              summary: err.Message,
+              detail: err.Errors,
             });
           } else {
             this.messageService.add({
@@ -172,11 +190,11 @@ export class SurveyComponent implements OnInit {
           this.spinner.hide();
         },
         error: (err) => {
-          if (err.error.StatusCode === 404) {
+          if (err.StatusCode) {
             this.messageService.add({
               severity: 'error',
-              summary: err.error.Message,
-              detail: err.error.Errors,
+              summary: err.Message,
+              detail: err.Errors,
             });
           }
           else {
@@ -209,11 +227,11 @@ export class SurveyComponent implements OnInit {
             }
           },
           error: (err) => {
-            if (err.error.StatusCode === 400 || err.error.StatusCode === 500) {
+            if (err.StatusCode) {
               this.messageService.add({
                 severity: 'error',
-                summary: err.error.Message,
-                detail: err.error.Errors,
+                summary: err.Message,
+                detail: err.Errors,
               });
             } else {
               this.messageService.add({
@@ -259,11 +277,11 @@ export class SurveyComponent implements OnInit {
               }
             },
             error: (err) => {
-              if (err.error.StatusCode === 404 || err.error.StatusCode === 400) {
+              if (err.StatusCode) {
                 this.messageService.add({
                   severity: 'error',
-                  summary: err.error.Message,
-                  detail: err.error.Errors,
+                  summary: err.Message,
+                  detail: err.Errors,
                 });
               } else {
                 this.messageService.add({

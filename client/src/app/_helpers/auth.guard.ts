@@ -1,5 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { map, take } from 'rxjs/operators';
 import { AuthenticationService } from '../_services/authen.service';
 
 @Injectable({ providedIn: 'root' })
@@ -10,21 +11,77 @@ export class AuthGuard implements CanActivate {
   ) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const user = this.authenticationService.userValue;
-    if (user) {
-      // check if route is restricted by role
-      if (route.data.roles && route.data.roles.indexOf(user.role) === -1) {
-        // role not authorised so redirect to home page
-        this.router.navigate(['/']);
+    return this.authenticationService.isLoggesIn.pipe(take(1), map((loginStatus: boolean) => {
+      const destination: string = state.url;
+      const surveyId = route.params.surveyId;
+      const questionId = route.params.questionId;
+
+
+      // To check if user is not logged in
+      if (!loginStatus) {
+        this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+
         return false;
       }
 
-      // authorised so return true
-      return true;
-    }
+      // if the user is already logged in
+      switch (destination) {
+        case '/admin/survey':
 
-    // not logged in so redirect to login page with the return url
-    this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
-    return false;
+        case '/admin/survey-detail/' + surveyId:
+          {
+            if (localStorage.getItem("userRole") === "Customer" || localStorage.getItem("userRole") === "Admin" || localStorage.getItem("userRole") === "Guest") {
+              return true;
+            }
+          }
+
+        case '/admin/category':
+          {
+            if (localStorage.getItem("userRole") === "Admin") {
+              return true;
+            } else {
+              this.router.navigate(['/access-denied'])
+              return false;
+            }
+          }
+
+        case '/admin/report/' + surveyId:
+          {
+            if (localStorage.getItem("userRole") === "Customer" || localStorage.getItem("userRole") === "Admin") {
+              return true;
+            } else {
+              this.router.navigate(['/access-denied'])
+              return false;
+            }
+          }
+
+        case '/admin/survey/' + surveyId + '/question':
+          {
+            if (localStorage.getItem("userRole") === "Customer" || localStorage.getItem("userRole") === "Admin") {
+              return true;
+            } else {
+              this.router.navigate(['/access-denied'])
+              return false;
+            }
+          }
+
+        case '/admin/survey/' + surveyId + '/question/' + questionId + '/answer':
+          {
+            if (localStorage.getItem("userRole") === "Customer" || localStorage.getItem("userRole") === "Admin") {
+              return true;
+            } else {
+              this.router.navigate(['/access-denied'])
+              return false;
+            }
+          }
+
+
+        default:
+          return false;
+      }
+
+    }));
+
+
   }
 }

@@ -2,11 +2,7 @@
 using SurveyOnline.EntityFrameworkCore.Models;
 using SurveyOnline.Infrastructure.Infrastructure;
 using SurveyOnline.Infrastructure.Repositories.Interfaces;
-using SurveyOnline.Shared.UserAnswer;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SurveyOnline.Application
@@ -27,6 +23,18 @@ namespace SurveyOnline.Application
             await _userAnswerRepository.Add(request);
             var result = await _userAnswerRepository.Commit();
             return result;
+        }
+
+        public async Task<UsersAnswer> CheckUserAnswer(string userId, int surveyId)
+        {
+             var query = await _userAnswerRepository.CheckUserAnswer(userId, surveyId);
+            return query;
+        }
+
+        public async Task<UsersAnswer> CheckAnswer(string userId, int surveyId, int questionId, int? answerId)
+        {
+            var query = await _userAnswerRepository.CheckAnswer(userId, surveyId,questionId,answerId);
+            return query;
         }
     }
 }

@@ -49,18 +49,25 @@ export class LoginComponent implements OnInit {
               summary: 'Thông báo',
               detail: 'Đăng nhập thành công !',
             });
-            this.router.navigateByUrl('/admin');
+            this.router.navigateByUrl('/admin/survey');
           } else {
             this.spinner.hide();
           }
         },
-        (error) => {
-          console.log(error.error);
-          this.messageService.add({
-            severity: 'error',
-            summary: error.error.Message,
-            detail: error.error.Errors,
-          });
+        (err) => {
+          if (err.StatusCode) {
+            this.messageService.add({
+              severity: 'error',
+              summary: err.Message,
+              detail: err.Errors,
+            });
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Thông báo',
+              detail: `Đã có lỗi !`,
+            });
+          }
           this.spinner.hide();
         }
       );
