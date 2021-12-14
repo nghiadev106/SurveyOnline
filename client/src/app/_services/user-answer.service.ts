@@ -20,11 +20,15 @@ export class UserAnswerService {
 
   }
 
-  onSubmit() {
+  onSubmit(surveyId: number) {
     let answers = this.getListAnswers();
     if (answers !== null) {
+      var data = {
+        SurveyId: surveyId,
+        Answers: answers
+      }
       const url = `${this.API_URL}`;
-      return this.http.post<any>(url, answers, httpOptions);
+      return this.http.post<any>(url, JSON.stringify(data), httpOptions);
     }
   }
 
@@ -53,30 +57,33 @@ export class UserAnswerService {
     let answers = this.getListAnswers();
     answers.push(item);
     localStorage.setItem('answer', JSON.stringify(answers));
-    console.log(answers);
     this.userAnswer.next(answers);
   }
 
   BlurEvent(userId: string, questionId: number, surveyId: number, response: string) {
-    var item = {
-      QuestionId: questionId,
-      SurveyId: surveyId,
-      UserId: userId,
-      Response: response
-    };
-    let answers = this.getListAnswers().filter((p) => p.QuestionId != item.QuestionId);
-    answers.push(item);
-    console.log(answers);
-    localStorage.setItem('answer', JSON.stringify(answers));
-    this.userAnswer.next(answers);
+    if (response === '') {
+      let answers = this.getListAnswers().filter((p) => p.QuestionId != questionId);
+      localStorage.setItem('answer', JSON.stringify(answers));
+      this.userAnswer.next(answers);
+    } else {
+      var item = {
+        QuestionId: questionId,
+        SurveyId: surveyId,
+        UserId: userId,
+        Response: response
+      };
+      let answers = this.getListAnswers().filter((p) => p.QuestionId != item.QuestionId);
+      answers.push(item);
+      localStorage.setItem('answer', JSON.stringify(answers));
+      this.userAnswer.next(answers);
+    }
   }
 
 
   deleteAnswer(answerId: number, questionId: number) {
-    let answer = this.getListAnswers().filter((p) => p.Id != answerId && p.QuestionId != questionId);
-    let lstAnswer = this.getListAnswers().filter((p) => p != answer);
-    localStorage.setItem('answer', JSON.stringify(answer));
-    this.userAnswer.next(lstAnswer);
+    let answers = this.getListAnswers().filter((p) => p.Id != answerId && p.QuestionId != questionId);
+    localStorage.setItem('answer', JSON.stringify(answers));
+    this.userAnswer.next(answers);
   }
 
   clearAnswers() {

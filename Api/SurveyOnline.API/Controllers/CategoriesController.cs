@@ -27,7 +27,7 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles = "User")]
+        [Authorize(Policy = "RequireAdmin")]
         public async Task<IActionResult> GetAll()
         {
             var categories = await _categoryService.GetAll();
@@ -37,6 +37,7 @@ namespace SurveyOnline.API.Controllers
 
 
         [HttpGet("paging")]
+        [Authorize(Policy = "RequireAdmin")]
         public async Task<IActionResult> GetAllPaging(string keyword, int page, int pageSize = 20)
         {
             var categories = await _categoryService.GetAllPaging(keyword);
@@ -52,6 +53,7 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpGet("{categoryId}")]
+        [Authorize(Policy = "RequireAdmin")]
         public async Task<IActionResult> GetById(int categoryId)
         {
             var category = await _categoryService.GetById(categoryId);
@@ -62,6 +64,7 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "RequireAdmin")]
         public async Task<IActionResult> Create([FromBody] CategoryCreateRequest request)
         {
             if (!ModelState.IsValid)
@@ -80,6 +83,7 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpPut("{categoryId}")]
+        [Authorize(Policy = "RequireAdmin")]
         public async Task<IActionResult> Update([FromRoute] int categoryId, [FromBody] CategoryUpdateRequest request)
         {
             if (!ModelState.IsValid)
@@ -105,6 +109,7 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpDelete("{categoryId}")]
+        [Authorize(Policy = "RequireAdmin")]
         public async Task<IActionResult> Delete(int categoryId)
         {
             var category = await _categoryService.GetById(categoryId);

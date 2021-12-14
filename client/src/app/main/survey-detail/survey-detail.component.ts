@@ -77,7 +77,7 @@ export class SurveyDetailComponent implements OnInit {
       header: 'Lưu khảo sát ?',
       message: 'Bạn có chắc muốn lưu khảo sát ?',
       accept: () => {
-        this.userAnswerService.onSubmit()
+        this.userAnswerService.onSubmit(this.surveyId)
           .pipe(first())
           .subscribe({
             next: (res) => {
@@ -129,13 +129,8 @@ export class SurveyDetailComponent implements OnInit {
   }
 
   onBlurEvent(event: any, questionId: number) {
-    if (event.target.value !== '') {
-      console.log(event.target.value);
-      var response = event.target.value
-      this.userAnswerService.BlurEvent(this.userId, questionId, this.surveyId, response);
-    }
-
-
+    var response = event.target.value;
+    this.userAnswerService.BlurEvent(this.userId, questionId, this.surveyId, response);
   }
 
   getListAnswers(): any[] {
@@ -150,7 +145,6 @@ export class SurveyDetailComponent implements OnInit {
   changeSelectBox(item: any, userId: string, questionId: number) {
     this.userAnswerService.changeCheckBox(item, userId, questionId);
   }
-
 
   deleteAnswer(answerId: number, questionId: number) {
     this.userAnswerService.deleteAnswer(answerId, questionId);

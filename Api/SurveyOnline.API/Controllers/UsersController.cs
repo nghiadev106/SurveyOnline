@@ -23,27 +23,19 @@ namespace SurveyOnline.API.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
 
-        private readonly SignInManager<AppUser> _signManager;
-
         private readonly AppSettings _appSettings;
 
-        private IEmailSender _emailsender;
         private ISendMailService _sendMailservice;
 
         public UsersController(UserManager<AppUser> userManager,
-           SignInManager<AppUser> signInManager,
            IOptions<AppSettings> appSettings,
-           IEmailSender emailsender,
            ISendMailService sendMailservice
            )
         {
             _userManager = userManager;
-            _signManager = signInManager;
             _appSettings = appSettings.Value;
-            _emailsender = emailsender;
             _sendMailservice = sendMailservice;
         }
-
 
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserRequest request)

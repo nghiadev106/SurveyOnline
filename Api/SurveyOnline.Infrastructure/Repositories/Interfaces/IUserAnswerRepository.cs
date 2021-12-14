@@ -1,5 +1,6 @@
 ﻿using SurveyOnline.EntityFrameworkCore.Models;
 using SurveyOnline.Infrastructure.Infrastructure;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SurveyOnline.Infrastructure.Repositories.Interfaces
@@ -8,5 +9,6 @@ namespace SurveyOnline.Infrastructure.Repositories.Interfaces
     {
         Task<UsersAnswer> CheckUserAnswer(string userId, int surveyId);
         Task<UsersAnswer> CheckAnswer(string userId, int surveyId, int questionId, int? answerId);
+        Task<List<UsersAnswer>> GetUserAnswerBySurveyId(int surveyId);    
     }
 }

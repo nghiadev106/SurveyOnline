@@ -18,7 +18,7 @@
             <div class="card-body">
               <div id="outside">
                 <form id="survey-form" action="" method="post">
-                  <p id="description"><b>Số người khảo khát:</b> {{this.count}}</p>
+                  <p id="description"><b>Số người khảo sát:</b> {{this.count}}</p>
                   <fieldset *ngFor="let question of questions; let i = index">
                     <div *ngIf="question.QuestionTypeId==1">
                       <label for="Gender">Câu {{i+1}}: {{question.Name}}</label>

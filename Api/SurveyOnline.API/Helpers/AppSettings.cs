@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace SurveyOnline.API.Helpers
+﻿namespace SurveyOnline.API.Helpers
 {
     public class AppSettings
     {

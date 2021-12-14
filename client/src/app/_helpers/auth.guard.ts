@@ -75,13 +75,9 @@ export class AuthGuard implements CanActivate {
             }
           }
 
-
         default:
           return false;
       }
-
     }));
-
-
   }
 }

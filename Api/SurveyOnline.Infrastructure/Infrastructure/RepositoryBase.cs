@@ -65,10 +65,12 @@ namespace SurveyOnline.Infrastructure.Infrastructure
         /// <param name="entities"></param>
         public virtual async Task Add(List<T> entities)
         {
+            var transaction=DbContext.Database.BeginTransaction();
             foreach (T item in entities)
             {
                 await DbContext.Set<T>().AddAsync(item);
             }
+            transaction.Commit();
         }
 
         /// <summary>
@@ -77,6 +79,7 @@ namespace SurveyOnline.Infrastructure.Infrastructure
         /// <param name="entity"></param>
         public virtual async Task Update(T entity)
         {
+           
             DbContext.Set<T>().Attach(entity);
             dataContext.Entry(entity).State = EntityState.Modified;
             //await DbContext.SaveChangesAsync();
@@ -88,11 +91,14 @@ namespace SurveyOnline.Infrastructure.Infrastructure
         /// <param name="entities"></param>
         public virtual void Update(List<T> entities)
         {
+           var transaction = DbContext.Database.BeginTransaction();
             foreach (T item in entities)
             {
                 DbContext.Set<T>().Attach(item);
                 dataContext.Entry(item).State = EntityState.Modified;
             }
+
+            transaction.Commit();
         }
 
 

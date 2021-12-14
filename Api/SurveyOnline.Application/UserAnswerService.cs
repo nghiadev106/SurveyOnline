@@ -31,10 +31,23 @@ namespace SurveyOnline.Application
             return query;
         }
 
+        public async Task<List<UsersAnswer>> GetUserAnswerBySurveyId(int surveyId)
+        {
+            List<UsersAnswer> query = await _userAnswerRepository.GetUserAnswerBySurveyId(surveyId);
+            return query;
+        }
+
         public async Task<UsersAnswer> CheckAnswer(string userId, int surveyId, int questionId, int? answerId)
         {
             var query = await _userAnswerRepository.CheckAnswer(userId, surveyId,questionId,answerId);
             return query;
+        }
+
+        public Task<int> Delete(List<UsersAnswer> usersAnswers)
+        {
+             _userAnswerRepository.Delete(usersAnswers);
+            var result=  _userAnswerRepository.Commit();
+            return result;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SurveyOnline.API.Helpers;
 using SurveyOnline.Application.Interfaces;
@@ -28,6 +29,7 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "RequireAdminOrCustomer")]
         public async Task<IActionResult> GetAll()
         {
             var questions = await _questionService.GetAll();
@@ -36,6 +38,7 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpGet("survey/{surveyId}")]
+        [Authorize(Policy = "RequireAdminOrCustomer")]
         public async Task<IActionResult> GetQuestionBySurveyId(int surveyId)
         {
             var questions = await _questionService.GetQuestionBySurveyId(surveyId);
@@ -43,6 +46,7 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpGet("questionTypes")]
+        [Authorize(Policy = "RequireAdminOrCustomer")]
         public async Task<IActionResult> GetAllQuestionTypes()
         {
             var questionTypes = await _questionService.GetAllQuestionTypes();
@@ -50,16 +54,18 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpGet("{questionId}")]
+        [Authorize(Policy = "RequireAdminOrCustomer")]
         public async Task<IActionResult> GetById(int questionId)
         {
             var question = await _questionService.GetById(questionId);
             if (question == null)
-                return NotFound(new ApiNotFoundResponse($"Cannot found question with id {questionId}"));
+                return NotFound(new ApiNotFoundResponse($"không tìm thấy khảo sát Id: {questionId}"));
             var questionVm = _mapper.Map<QuestionDto>(question);
             return Ok(questionVm);
         }
 
         [HttpPost]
+        [Authorize(Policy = "RequireAdminOrCustomer")]
         public async Task<IActionResult> Create([FromBody] QuestionCreateRequest request)
         {
             if (!ModelState.IsValid)
@@ -90,6 +96,7 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpPut("{questionId}")]
+        [Authorize(Policy = "RequireAdminOrCustomer")]
         public async Task<IActionResult> Update([FromRoute] int questionId, [FromBody] QuestionUpdateRequest request)
         {
             if (!ModelState.IsValid)
@@ -117,6 +124,7 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpDelete("{questionId}")]
+        [Authorize(Policy = "RequireAdminOrCustomer")]
         public async Task<IActionResult> Delete(int questionId)
         {
             var question = await _questionService.GetById(questionId);

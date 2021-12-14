@@ -21,6 +21,12 @@ namespace SurveyOnline.Infrastructure.Repositories
             return query;
         }
 
+        public async Task<List<UsersAnswer>> GetUserAnswerBySurveyId(int surveyId)
+        {
+            List<UsersAnswer> query = await DbContext.UsersAnswers.Where(x => x.SurveyId == surveyId).ToListAsync();
+            return query;
+        }
+
         public async Task<UsersAnswer> CheckAnswer(string userId, int surveyId,int questionId,int? answerId)
         {
             if (answerId != null)

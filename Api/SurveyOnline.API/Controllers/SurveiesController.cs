@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SurveyOnline.API.Helpers;
 using SurveyOnline.Application.Interfaces;
 using SurveyOnline.Shared.Surveies;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace SurveyOnline.API.Controllers
@@ -34,6 +32,7 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "RequireLoggedIn")]
         public async Task<IActionResult> GetAll()
         {
             var lstSurveies = await _surveyService.GetAll();
@@ -68,7 +67,9 @@ namespace SurveyOnline.API.Controllers
             return Ok(surveyVm);
         }
 
+
         [HttpGet("getDetail/{surveyId}/user/{userId}")]
+        [Authorize(Policy = "RequireLoggedIn")]
         public async Task<IActionResult> GetSurveyDetail(string userId, int surveyId)
         {
             var userAnswer =await _userAnswerService.CheckUserAnswer(userId, surveyId);
@@ -83,6 +84,7 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpGet("getUserStatistics/{surveyId}")]
+        [Authorize(Policy = "RequireAdminOrCustomer")]
         public async Task<IActionResult> GetUserStatistics(int surveyId)
         {
             var count = await _surveyService.GetUserStatistics(surveyId);
@@ -90,6 +92,7 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpGet("getRatioStatistics/{surveyId}")]
+        [Authorize(Policy = "RequireAdminOrCustomer")]
         public IActionResult GetRatioStatistics(int surveyId)
         {
             var survey = _surveyService.GetRatioStatistics(surveyId);
@@ -97,13 +100,13 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "RequireAdminOrCustomer")]
         public async Task<IActionResult> Create([FromBody] SurveyCreateRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(new ApiBadRequestResponse(ModelState, "Thêm mới không thành công"));
             }
-            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var result = await _surveyService.Add(request);
             if (result > 0)
             {
@@ -116,6 +119,7 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpPut("{surveyId}")]
+        [Authorize(Policy = "RequireAdminOrCustomer")]
         public async Task<IActionResult> Update([FromRoute] int surveyId, [FromBody] SurveyUpdateRequest request)
         {
             if (!ModelState.IsValid)
@@ -152,11 +156,19 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpDelete("{surveyId}")]
+        [Authorize(Policy = "RequireAdminOrCustomer")]
         public async Task<IActionResult> Delete(int surveyId)
         {
             var survey = await _surveyService.GetById(surveyId);
             if (survey == null)
                 return NotFound(new ApiNotFoundResponse($"Không tìm thấy khảo sát Id: {surveyId}"));
+
+            var answerAnswer = await _userAnswerService.GetUserAnswerBySurveyId(surveyId);
+
+            if (answerAnswer != null)
+            {
+                await _userAnswerService.Delete(answerAnswer);
+            }
 
             var result = await _surveyService.Delete(survey);
 

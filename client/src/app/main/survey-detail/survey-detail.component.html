@@ -30,22 +30,22 @@
                       </p>
                     </div>
                     <div *ngIf="question.QuestionTypeId==2">
-                      <label for="Gender">Câu {{question.SortOrder}}: {{question.Name}}</label>
+                      <label for="Gender">Câu {{i+1}}: {{question.Name}}</label>
                       <p *ngFor="let answer of question.Answers_json">
                         <input type="checkbox" (change)="onChangeSelectBox(answer,$event)"
                           value="{{answer.Id}}">{{answer.Content}}
                       </p>
                     </div>
                     <div *ngIf="question.QuestionTypeId==3">
-                      <label for="msg">Câu {{question.SortOrder}}: {{question.Name}}</label><br>
-                      <textarea id="msg" (blur)="onBlurEvent($event,question.Id)" name="user_message" rows="4" cols="50"
-                        placeholder="Enter Text Here"></textarea>
+                      <label for="msg">Câu {{i+1}}: {{question.Name}}</label><br>
+                      <textarea required id="msg" (blur)="onBlurEvent($event,question.Id)" name="user_message" rows="4"
+                        cols="50" placeholder="Enter Text Here"></textarea>
                     </div>
                   </fieldset>
                   <button routerLink="/admin/survey" pTooltip="Danh sách khảo sát" tooltipPosition="top"
                     class="btn btn-success waves-effect waves-light mr-1">Quay lại</button>
                   <div id="submitbutton">
-                    <button type="button" id="submit" (click)="onSubmit()">Lưu thông tin</button>
+                    <button type="button" class="btn-buttun" id="submit" (click)="onSubmit()">Lưu thông tin</button>
                   </div>
                 </form>
 
@@ -67,7 +67,7 @@
 <p-confirmDialog #cd [style]="{width: '50vw'}" [baseZIndex]="10000" icon="pi pi-exclamation-triangle">
   <p-footer>
     <button type="button" (click)="cd.accept()" class="btn btn-primary waves-effect waves-light"> <i
-        class="mdi mdi-check"></i> Xoá</button>
+        class="mdi mdi-check"></i> Lưu</button>
     <button type="button" (click)="cd.hide()" class="btn btn-danger waves-effect waves-light"> <i
         class="mdi mdi-close"></i> Huỷ</button>
   </p-footer>

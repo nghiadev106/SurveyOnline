@@ -4,15 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using SurveyOnline.API.Helpers;
 using SurveyOnline.Application.Interfaces;
 using SurveyOnline.Shared.Answers;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SurveyOnline.API.Controllers
 {
     [Route("api/[controller]")]
-    //[Authorize]
     [ApiController]
     public class AnswersController : ControllerBase
     {
@@ -28,7 +25,7 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles = "User")]
+        [Authorize(Policy = "RequireAdminOrCustomer")]
         public async Task<IActionResult> GetAll()
         {
             var answers = await _answerService.GetAll();
@@ -37,6 +34,7 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpGet("question/{questionId}")]
+        [Authorize(Policy = "RequireAdminOrCustomer")]
         public async Task<IActionResult> GetAnswerByQuestionId(int questionId)
         {
             var answers = await _answerService.GetAnswerByQuestionId(questionId);
@@ -45,6 +43,7 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpGet("{answerId}")]
+        [Authorize(Policy = "RequireAdminOrCustomer")]
         public async Task<IActionResult> GetById(int answerId)
         {
             var answer = await _answerService.GetById(answerId);
@@ -55,6 +54,7 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "RequireAdminOrCustomer")]
         public async Task<IActionResult> Create([FromBody] AnswerCreateRequest request)
         {
             if (!ModelState.IsValid)
@@ -73,6 +73,7 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpPut("{answerId}")]
+        [Authorize(Policy = "RequireAdminOrCustomer")]
         public async Task<IActionResult> Update([FromRoute] int answerId, [FromBody] AnswerUpdateRequest request)
         {
             if (!ModelState.IsValid)
@@ -99,6 +100,7 @@ namespace SurveyOnline.API.Controllers
         }
 
         [HttpDelete("{answerId}")]
+        [Authorize(Policy = "RequireAdminOrCustomer")]
         public async Task<IActionResult> Delete(int answerId)
         {
             var answer = await _answerService.GetById(answerId);
